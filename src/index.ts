@@ -27,3 +27,4 @@ app.use('/api', imageProcessingRoute);
 app.listen(PORT, () => {
     console.log(`Server running on localhost:${PORT}`);
 });
+export default app;
