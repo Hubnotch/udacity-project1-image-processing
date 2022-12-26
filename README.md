@@ -22,4 +22,4 @@ http://localhost:3005/api/image-processing
 - width: The width of the image after resizing.
 
 #### An example of a correct endpoint call would be:
-http://localhost:3005/api/images?filename=fjord&height=300&width=300
+http://localhost:3005/api/image-processing?filename=fjord&width=350&height=500
