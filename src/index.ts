@@ -11,7 +11,7 @@ const limiter = rateLimiter({
 });
 
 const app = express();
-const PORT = 3005;
+const PORT = 3005 || 3006;
 const whiteList = ['http://localhost:3005', 'http://localhost:3006']
 const corsConfig = {
     origin: (origin: CorsOptions, callback: Function) => {
