@@ -3,5 +3,8 @@
     "singleQuote": true,
     "arrowParens": "always",
     "bracketSpacing": true,
-    "parser":"acorn"
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "parser": "typescript"
 }
