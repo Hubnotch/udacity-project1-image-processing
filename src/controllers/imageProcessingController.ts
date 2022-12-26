@@ -2,15 +2,19 @@ import * as fs from "fs";
 import sharp from 'sharp'
 import { Request, Response } from 'express'
 
-export const imageProcessing = (req: Request, res: Response) => {
-    console.log(req.query)
+export const imageProcessing = async (req: Request, res: Response) => {
+    const filename = req.query.filename;
     const width = (Number(req.query.width) as unknown) as number;
     const height = (Number(req.query.height) as unknown) as number;
 
     
     const imagePath = `${process.cwd()}/images/${req.query.filename}.jpg`;
-
-    sharp(imagePath)
+    if (!filename || !width || !height) {
+        res.status(404).send('Incorrect image parameters');
+        return;
+     }
+     
+    await sharp(imagePath)
         .resize(width, height)
         .toBuffer()
         .then((data: Buffer) => {

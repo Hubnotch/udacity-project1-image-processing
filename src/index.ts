@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors,{CorsOptions} from 'cors';
 import rateLimiter from 'express-rate-limit';
-import imageProcessingRoute from './routes';
+import routes from './routes/index';
 
 const limiter = rateLimiter({
     windowMs: 15 * 60 * 1000,
@@ -22,7 +22,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(limiter);
 
-app.use('/api', imageProcessingRoute);
+app.use('/api', routes);
 
 app.listen(PORT, () => {
     console.log(`Server running on localhost:${PORT}`);

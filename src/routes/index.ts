@@ -1,7 +1,11 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { imageProcessing } from '../controllers/imageProcessingController';
+const router = express.Router();
 
-const imageProcessingRoute = express.Router();
-imageProcessingRoute.get('/image-processing', imageProcessing);
+router.get('/', (req:Request, res:Response):void => { 
+    res.send('Home Route')
+})
 
-export default imageProcessingRoute;
+router.use('/image-processing', imageProcessing)
+
+export default router
