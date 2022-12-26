@@ -13,20 +13,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageProcessing = void 0;
-const sharp_1 = __importDefault(require("sharp"));
+const fs_1 = require("fs");
+const fs_2 = __importDefault(require("fs"));
+const imageProcessingFunc_1 = __importDefault(require("../utility/imageProcessingFunc"));
+const path_1 = __importDefault(require("path"));
 const imageProcessing = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const width = Number(req.query.width);
-    const height = Number(req.query.height);
-    const imagePath = `${process.cwd()}/images/${req.query.filename}.jpg`;
-    yield (0, sharp_1.default)(imagePath)
-        .resize(width, height)
-        .toBuffer()
-        .then((data) => {
-        res.set('Content-Type', 'image/jpg');
-        res.set('Cache-Control', 'public, max-age=31536000');
-        res.send(data);
-    }).catch((err) => {
-        res.status(500).json({ error: err.message });
-    });
+    try {
+        console.log('got here');
+        const filename = req.query.filename;
+        const width = Number(req.query.width);
+        const height = Number(req.query.height);
+        const imagePath = `${process.cwd()}/images/${req.query.filename}.jpg`;
+        if (!filename || !width || !height) {
+            res.status(404).send('Incorrect image parameters');
+            return;
+        }
+        const resizedImagePath = `images/resized/${filename}x${width}x${height}.jpg`;
+        if (!fs_2.default.existsSync(resizedImagePath)) {
+            const resizedImage = yield (0, imageProcessingFunc_1.default)(filename, width, height);
+            yield fs_1.promises.writeFile(resizedImagePath, resizedImage);
+        }
+        res.sendFile(path_1.default.resolve(resizedImagePath));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).send('Image not found!');
+    }
 });
 exports.imageProcessing = imageProcessing;

@@ -25,4 +25,12 @@ describe('Image Processing API', () => {
         const response = yield request.get('/api/image-processing?filename=palmtunnel&width=350&height=500');
         expect(response.status).toBe(200);
     }));
+    it('Expect 400 response code for missing one of query string parameters', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/images?filename=fjord&width=300');
+        expect(response.status).toBe(404);
+    }));
+    it('Expect 400 response code for image not found', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/images?filename=invalidName&width=400&height=400');
+        expect(response.status).toBe(404);
+    }));
 });
